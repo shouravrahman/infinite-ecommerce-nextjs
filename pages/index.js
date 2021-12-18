@@ -1,16 +1,47 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import {
+	Button,
+	Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	CardMedia,
+	Grid,
+	Typography,
+} from '@mui/material'
+
 import Layout from '../components/Layout'
-import styles from '../styles/Home.module.css'
+import data from '../utils/data'
 
 export default function Home() {
 	return (
 		<Layout>
 			<div>
-				<h1>infinite</h1>
-				<li>product 1</li>
-				<li>product 2</li>
-				<li>product 3</li>
+				<h1>products</h1>
+				<Grid container spacing={3}>
+					{data.products.map((product) => {
+						return (
+							<Grid item md={4} key={product.name}>
+								<Card variant='outlined'>
+									<CardActionArea>
+										<CardMedia
+											component='img'
+											image={product.image}
+											title={product.name}></CardMedia>
+										<CardContent>
+											<Typography>{product.name}</Typography>
+										</CardContent>
+									</CardActionArea>
+									<CardActions>
+										<Typography>${product.price}</Typography>
+										<Button size='small' color='primary'>
+											Add to Cart
+										</Button>
+									</CardActions>
+								</Card>
+							</Grid>
+						)
+					})}
+				</Grid>
 			</div>
 		</Layout>
 	)
