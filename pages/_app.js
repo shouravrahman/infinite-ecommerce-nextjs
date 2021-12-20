@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import '../styles/globals.css'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '../utils/createEmotionCache'
+import { StoreProvider } from '../utils/Store'
 
 const clientSideEmotionCache = createEmotionCache()
 function MyApp(props) {
@@ -15,7 +16,9 @@ function MyApp(props) {
 	// }, [])
 	return (
 		<CacheProvider value={emotionCache}>
-			<Component {...pageProps} />
+			<StoreProvider>
+				<Component {...pageProps} />
+			</StoreProvider>
 		</CacheProvider>
 	)
 }
