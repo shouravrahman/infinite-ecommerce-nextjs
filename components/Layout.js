@@ -15,6 +15,7 @@ import NextLink from 'next/link'
 import React, { useContext } from 'react'
 import { Store } from '../utils/Store'
 import classes from '../utils/classes'
+import Cookies from 'js-cookie'
 
 const Layout = ({ title, children, description }) => {
 	const { state, dispatch } = useContext(Store)
@@ -23,6 +24,8 @@ const Layout = ({ title, children, description }) => {
 
 	const darkModeChangeHandler = () => {
 		dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' })
+		const newDarkMode = !darkMode
+		Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF')
 	}
 	// const classes = useStyles()
 	const theme = createTheme({
