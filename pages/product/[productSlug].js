@@ -9,20 +9,15 @@ import {
 	Typography,
 } from '@mui/material'
 import Box from '@mui/material/Box'
-import { useRouter } from 'next/router'
 import React from 'react'
 import NextLink from 'next/link'
 import Layout from '../../components/Layout'
-import data from '../../utils/data'
+import Product from '../../models/Product'
+import db from '../../utils/db'
 import classes from '../../utils/classes'
 import Image from 'next/image'
 
-const ProductScreen = () => {
-	const router = useRouter()
-	const { productSlug } = router.query
-	// console.log(router)
-	const product = data.products.find((a) => a.slug === productSlug)
-
+const ProductScreen = ({ product }) => {
 	if (!product) {
 		return <div>!Not found</div>
 	}
@@ -228,6 +223,19 @@ const ProductScreen = () => {
 			{/* </Grid> */}
 		</Layout>
 	)
+}
+export async function getServerSideProps(context) {
+	const { params } = context
+	const { slug } = params
+
+	await db.connect()
+	const product = await Product.findOne({ slug }, '-reviews').lean()
+	await db.disconnect()
+	return {
+		props: {
+			product: db.convertDocToObj(product),
+		},
+	}
 }
 
 export default ProductScreen
